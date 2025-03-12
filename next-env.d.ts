@@ -3,3 +3,6 @@
 
 // NOTE: This file should not be edited
 // see https://nextjs.org/docs/basic-features/typescript for more information.
+
+// Add Web Speech API types
+/// <reference path="./src/types/global.d.ts" />
