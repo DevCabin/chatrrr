@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "regions": ["sfo1"],
   "functions": {
-    "api/**/*": {
+    "app/api/**/*": {
       "memory": 1024,
       "maxDuration": 10
     }
