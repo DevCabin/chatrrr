@@ -89,6 +89,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - sounddevice
 - scipy
 
+## [0.1.0-speech2text] - 2024-03-11
+
+### Added
+- Basic Next.js 14 project structure with App Router
+- Speech-to-text functionality using Web Speech API
+- Basic UI with recording controls
+- Vercel deployment configuration
+- Mock API endpoint for future Claude integration
+- Environment variable setup
+- Comprehensive documentation
+
+### Working Features
+- Speech-to-text conversion
+- Recording start/stop controls
+- Real-time transcript display
+- Vercel deployment
+- Basic error handling
+
+### Known Limitations
+- Claude AI integration pending
+- Notion integration planned for future
+- Text-to-speech not implemented yet
+- Limited browser support (works best in Chrome/Edge)
+
 ## [Unreleased]
 
 ### TODO - Voice Interaction Improvements
