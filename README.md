@@ -19,9 +19,11 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 ## Core Features
 
 1. **Voice Interface**
-   - Browser-based speech-to-text using Web Speech API
+   - Browser-based speech recognition using react-speech-recognition
    - Text-to-speech using Web Speech Synthesis API
    - Real-time voice input and output
+   - Automatic silence detection and processing
+   - Continuous conversation support
    - No local dependencies required
 
 2. **Claude AI Integration**
@@ -40,10 +42,15 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 
 - **Frontend**: Next.js 14 with App Router
 - **Styling**: Tailwind CSS
-- **Voice**: Web Speech API (built into modern browsers)
+- **Voice**: react-speech-recognition + Web Speech API
 - **AI**: Anthropic Claude API
 - **Data Storage**: Notion API (planned)
 - **Deployment**: Vercel
+- **Language**: TypeScript
+- **Dependencies**:
+  - react-speech-recognition: ^3.10.0
+  - @anthropic-ai/sdk: ^0.39.0
+  - @notionhq/client: ^2.2.14
 
 ## Deployment Status
 
