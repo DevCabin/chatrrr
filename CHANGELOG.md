@@ -145,14 +145,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Error state styling
 
 ### TODO - Data Storage Integration
-- Complete Google Sheets integration:
-  - Set up Google Sheets credentials in Vercel environment
-  - Configure spreadsheet ID and structure
+- Complete Notion integration:
+  - Set up Notion API credentials in Vercel environment
+  - Configure database ID and structure
   - Implement conversation history storage:
     - Save user messages and Claude responses
     - Store timestamps and session information
     - Add metadata (browser info, speech recognition status)
-  - Add error handling and retry logic for sheet operations
+  - Add error handling and retry logic for API operations
   - Implement rate limiting to prevent quota issues
 - Add conversation history features:
   - Display previous conversations
@@ -178,7 +178,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Directory structure for:
   - Voice interface components
   - DeepSpeech integration
-  - Google Sheets integration
+  - Notion integration
 - Claude AI Integration:
   - Claude API client setup with TypeScript
   - API route for Claude interactions
@@ -233,7 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initialization state tracking
 - RequestAnimationFrame for smoother updates
 - Vercel deployment configuration
-- Google Sheets API integration setup
+- Notion API integration setup
 - Environment variables configuration for production
 
 ### Changed

@@ -29,7 +29,7 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
    - Structured response handling
 
 3. **Data Integration**
-   - Google Sheets integration for data storage
+   - Notion integration for data storage
    - Read/write capabilities
    - Structured data management
    - Easy to set up and maintain
@@ -40,7 +40,7 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 - **Styling**: Tailwind CSS
 - **Voice**: Web Speech API (built into modern browsers)
 - **AI**: Anthropic Claude API
-- **Data Storage**: Google Sheets API
+- **Data Storage**: Notion API
 - **Deployment**: Vercel
 
 ## TODO List
@@ -60,7 +60,7 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 - [ ] Error handling and retry logic
 
 ### Phase 3: Data Storage
-- [ ] Set up Google Sheets API
+- [ ] Set up Notion API
 - [ ] Create data read/write functions
 - [ ] Implement data structure/schema
 - [ ] Add error handling for data operations
@@ -77,8 +77,8 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 
 ```env
 CLAUDE_API_KEY=your-api-key
-GOOGLE_SHEETS_CREDENTIALS=your-credentials
-GOOGLE_SHEETS_ID=your-sheet-id
+NOTION_API_KEY=your-api-key
+NOTION_DATABASE_ID=your-database-id
 ```
 
 ## Getting Started
@@ -86,7 +86,7 @@ GOOGLE_SHEETS_ID=your-sheet-id
 1. Clone the repository
 2. Deploy to Vercel
 3. Set up environment variables
-4. Configure Google Sheets access
+4. Configure Notion access
 5. Start using the application
 
 ## Notes
