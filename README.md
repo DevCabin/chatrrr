@@ -4,6 +4,8 @@ Speech → Claude → Notion → Claude → Speech
 
 A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black.svg)](https://chatrrr.vercel.app)
+
 ## Features
 
 - Voice input using Web Speech API (Chrome/Edge browsers)
@@ -29,7 +31,7 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
    - Structured response handling
 
 3. **Data Integration**
-   - Notion integration for data storage
+   - Notion integration for data storage (coming soon)
    - Read/write capabilities
    - Structured data management
    - Easy to set up and maintain
@@ -40,78 +42,68 @@ A voice chat interface for Claude AI, built with Next.js and Web Speech API.
 - **Styling**: Tailwind CSS
 - **Voice**: Web Speech API (built into modern browsers)
 - **AI**: Anthropic Claude API
-- **Data Storage**: Notion API
+- **Data Storage**: Notion API (planned)
 - **Deployment**: Vercel
 
-## TODO List
+## Deployment Status
 
-### Phase 1: Voice Interface (Priority)
-- [ ] Set up Next.js project with Vercel deployment
-- [ ] Implement Web Speech API for speech-to-text
-- [ ] Add text-to-speech functionality
-- [ ] Create voice recording controls
-- [ ] Add visual feedback for voice input/output
-
-### Phase 2: Claude Integration
-- [ ] Set up Claude API integration
-- [ ] Implement conversation handling
-- [ ] Add context management
-- [ ] Create response processing
-- [ ] Error handling and retry logic
-
-### Phase 3: Data Storage
-- [ ] Set up Notion API
-- [ ] Create data read/write functions
-- [ ] Implement data structure/schema
-- [ ] Add error handling for data operations
-- [ ] Create backup/recovery process
-
-### Phase 4: Polish
-- [ ] Add loading states and animations
-- [ ] Improve error messages
-- [ ] Add usage instructions
-- [ ] Implement basic analytics
-- [ ] Add security measures
+- **Production**: [chatrrr.vercel.app](https://chatrrr.vercel.app)
+- **Status**: [![Vercel Status](https://img.shields.io/github/deployments/DevCabin/chatrrr/production?label=vercel&logo=vercel)](https://chatrrr.vercel.app)
 
 ## Environment Variables Required
 
 ```env
 CLAUDE_API_KEY=your-api-key
-NOTION_API_KEY=your-api-key
-NOTION_DATABASE_ID=your-database-id
+NOTION_API_KEY=your-api-key (coming soon)
+NOTION_DATABASE_ID=your-database-id (coming soon)
 ```
 
-## Getting Started
+## Quick Start
 
-1. Clone the repository
-2. Deploy to Vercel
-3. Set up environment variables
-4. Configure Notion access
-5. Start using the application
+1. Fork or clone the repository
+2. Connect your repository to Vercel:
+   ```bash
+   vercel link
+   ```
+3. Add your environment variables:
+   ```bash
+   vercel env add CLAUDE_API_KEY
+   ```
+4. Deploy:
+   ```bash
+   vercel deploy
+   ```
 
-## Notes
-
-- All development and testing will be done directly on Vercel
-- No local development environment required
-- Uses browser-native APIs for voice features
-- Minimal dependencies for maximum reliability
-
-## Features
-
-- Real-time speech recognition
-- Natural voice interaction with Claude AI
-- Automatic deployment via voice command ("go")
-- Error handling and logging
-- Modern, responsive UI
+Or use the automatic deployment by saying "go" in the voice interface.
 
 ## Development
 
-To run locally:
+While the project is designed for direct Vercel deployment, you can run it locally:
 
 ```bash
 npm install
 npm run dev
 ```
+
+## Voice Commands
+
+- **"Go"**: Triggers automatic deployment
+- More commands coming soon...
+
+## Browser Support
+
+- Chrome (recommended)
+- Edge
+- Other Chromium-based browsers
+- Firefox (limited support)
+- Safari (limited support)
+
+## Notes
+
+- All development and testing is done directly on Vercel
+- Uses browser-native APIs for voice features
+- Minimal dependencies for maximum reliability
+- Automatic deployment via voice command
 
 Last tested: March 11, 2024 - All features working
 Deployment: Automatic via voice command "go"
