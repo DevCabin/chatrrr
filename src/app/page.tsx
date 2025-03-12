@@ -1,103 +1,62 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-
-// TypeScript declarations for Web Speech API
-declare global {
-  interface Window {
-    SpeechRecognition: typeof SpeechRecognition;
-    webkitSpeechRecognition: typeof SpeechRecognition;
-  }
-}
+import { useState, useEffect } from 'react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import 'regenerator-runtime/runtime';
 
 export default function Home() {
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
   const [response, setResponse] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastSpeechRef = useRef<number>(Date.now());
+  const [autoStart, setAutoStart] = useState(true);
+
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition({
+    continuous: true,
+    interimResults: true
+  });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        recognitionRef.current = new SpeechRecognition();
-        if (recognitionRef.current) {
-          recognitionRef.current.continuous = true;
-          recognitionRef.current.interimResults = true;
+    if (autoStart && browserSupportsSpeechRecognition) {
+      SpeechRecognition.startListening({ continuous: true });
+    }
+    return () => {
+      SpeechRecognition.stopListening();
+    };
+  }, [autoStart, browserSupportsSpeechRecognition]);
 
-          recognitionRef.current.onresult = (event) => {
-            lastSpeechRef.current = Date.now();
-            const transcript = Array.from(event.results)
-              .map(result => result[0])
-              .map(result => result.transcript)
-              .join('');
-            setTranscript(transcript);
-            
-            // Reset silence detection timer
-            if (silenceTimeoutRef.current) {
-              clearTimeout(silenceTimeoutRef.current);
-            }
-            silenceTimeoutRef.current = setTimeout(() => {
-              if (isListening && recognitionRef.current) {
-                console.log('Silence detected, stopping recording...');
-                recognitionRef.current.stop();
-              }
-            }, 2000); // 2 seconds of silence
-          };
-
-          recognitionRef.current.onerror = (event) => {
-            console.error('Speech recognition error:', event.error);
-            setIsListening(false);
-            if (silenceTimeoutRef.current) {
-              clearTimeout(silenceTimeoutRef.current);
-            }
-          };
-
-          recognitionRef.current.onend = () => {
-            setIsListening(false);
-            if (silenceTimeoutRef.current) {
-              clearTimeout(silenceTimeoutRef.current);
-            }
-            // Only submit if we have a transcript and some time has passed since last speech
-            if (transcript.trim() && Date.now() - lastSpeechRef.current > 1000) {
-              handleSubmit();
-            }
-          };
-        }
-      }
+  // Debounce the transcript processing
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
+    if (transcript && !isProcessing) {
+      timeoutId = setTimeout(() => {
+        handleSubmit();
+      }, 1500); // Wait 1.5 seconds of silence before processing
     }
 
     return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-      if (silenceTimeoutRef.current) {
-        clearTimeout(silenceTimeoutRef.current);
-      }
+      if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [transcript]);
+  }, [transcript, isProcessing]);
 
   const toggleListening = () => {
-    if (!isListening) {
-      setTranscript('');
-      setResponse('');
-      lastSpeechRef.current = Date.now();
-      recognitionRef.current?.start();
-      setIsListening(true);
+    if (listening) {
+      SpeechRecognition.stopListening();
+      setAutoStart(false);
     } else {
-      if (silenceTimeoutRef.current) {
-        clearTimeout(silenceTimeoutRef.current);
-      }
-      recognitionRef.current?.stop();
-      setIsListening(false);
+      resetTranscript();
+      setResponse('');
+      SpeechRecognition.startListening({ continuous: true });
+      setAutoStart(true);
     }
   };
 
   const handleSubmit = async () => {
-    if (!transcript.trim()) return;
+    if (!transcript.trim() || isProcessing) return;
 
     setIsProcessing(true);
     try {
@@ -114,6 +73,7 @@ export default function Home() {
       const data = await response.json();
       setResponse(data.response);
       speak(data.response);
+      resetTranscript(); // Clear transcript after processing
     } catch (error) {
       console.error('Error:', error);
       setResponse('Sorry, there was an error processing your request.');
@@ -124,8 +84,24 @@ export default function Home() {
 
   const speak = (text: string) => {
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.onend = () => {
+      // Resume listening after speaking if autoStart is enabled
+      if (autoStart && !listening) {
+        SpeechRecognition.startListening({ continuous: true });
+      }
+    };
     window.speechSynthesis.speak(utterance);
   };
+
+  if (!browserSupportsSpeechRecognition) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">
+          Your browser doesn't support speech recognition. Please use Chrome or Edge.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
@@ -137,12 +113,12 @@ export default function Home() {
             <button
               onClick={toggleListening}
               className={`px-6 py-3 rounded-lg text-white font-medium transition-colors ${
-                isListening 
+                listening 
                   ? 'bg-red-500 hover:bg-red-600' 
                   : 'bg-blue-500 hover:bg-blue-600'
               }`}
             >
-              {isListening ? '🎤 Recording...' : '🎤 Start Recording'}
+              {listening ? '🎤 Recording...' : '🎤 Start Recording'}
             </button>
           </div>
 
